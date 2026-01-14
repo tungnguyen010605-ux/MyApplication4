@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="expense_categories">
+        <item>Do an</item>
+        <item>Di chuyen</item>
+        <item>Giai tri</item>
+        <item>Khac</item>
+    </string-array>
+</resources>

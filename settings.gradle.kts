@@ -23,3 +23,4 @@ rootProject.name = "MyApplication4"
 include(":app")
 include(":app:unitconverter")
 include(":app:calculator")
+include(":app:expensify")

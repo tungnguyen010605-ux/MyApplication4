@@ -4,22 +4,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import org.mariuszgromada.math.mxparser.Expression;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView editTextText;
+    private TextView showPreviousText;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.constraint_layout);
+        setContentView(R.layout.constraint_layout1);
         editTextText = findViewById(R.id.textViewResult);
+        showPreviousText = findViewById(R.id.textViewPrevious);
         setButtonClickListener();
     }
 
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             case "=":
                 calculateResult();
                 break;
-            case "<":
+            case "()":
                 handleParentheses();
                 break;
             case "⌫":
@@ -70,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearInput() {
         editTextText.setText("");
+        showPreviousText.setText("");
     }
 
     private boolean isOpenParentheses = false;
@@ -86,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private void calculateResult() {
         try{
             String expression = editTextText.getText().toString();
+            showPreviousText.setText(expression);
             Expression expressionEval = new Expression(expression);
             double result = expressionEval.calculate();
             editTextText.setText(String.valueOf(result));

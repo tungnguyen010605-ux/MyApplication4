@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(() -> showQuestion(questions.get(0)));
         }).start();
 
+
     }
 
     private void showQuestion(Question question) {

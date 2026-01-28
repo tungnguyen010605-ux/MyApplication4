@@ -20,4 +20,8 @@ public interface QuestionDao {
     void update(Question question);
     @Delete
     void delete(Question question);
+    @Query("SELECT * FROM question")
+    List<Question> getAll();
+
+
 }

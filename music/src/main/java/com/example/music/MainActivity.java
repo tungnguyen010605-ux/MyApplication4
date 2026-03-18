@@ -1,7 +1,10 @@
 package com.example.music;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
@@ -9,7 +12,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -47,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -87,5 +93,40 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0);
     }
+
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isPlaying && ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            // 1. Khởi tạo Intent là MainActivity
+            Intent notificationIntent = new Intent(context, MainActivity.class);
+            notificationIntent.setAction(Intent.ACTION_MAIN);
+            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+
+            // 2. Chuyển sang PendingIntent để đưa cho Notification
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+
+            // 3. Khởi tạo thông báo
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Music")
+                    .setContentText("Nhạc đang phát")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setSound(null)
+                    // 4. Set Intent vừa tạo ở đây. Khi nhấn vào thông báo sẽ mở lại MainActivity
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+
+            // 5. Hiển thị thông báo đến người dùng
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            notificationManager.notify(1, builder.build());
+        }
+    }
 }
+
+
 

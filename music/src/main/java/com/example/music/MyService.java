@@ -23,7 +23,6 @@ public class MyService extends Service {
         mediaPlayer.setLooping(true); // Lặp lại nhạc
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
